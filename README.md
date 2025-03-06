@@ -34,3 +34,27 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+# Interactive Resume
+
+A modern, interactive resume built with Next.js and Tailwind CSS.
+
+## Features
+
+- Light/Dark mode toggle
+- Responsive design
+- Interactive sections
+- Portfolio showcase
+- Contact form
+- Certifications with viewable PDFs
+- Profile picture
+
+## Deployment
+
+This project is deployed on Vercel.
+
+## Recent Updates
+
+- Fixed deployment issues by removing unused imports and replacing img tags with Next.js Image components
+- Added certifications section with viewable certificates
+- Added profile picture
