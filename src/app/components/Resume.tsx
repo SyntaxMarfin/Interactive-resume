@@ -320,7 +320,7 @@ export default function Resume() {
                         
                         <div className="md:w-2/3">
                             <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
-                                I&apos;m a passionate software engineer with expertise in cloud infrastructure, Python development, and IoT solutions. With a strong background in AWS and a knack for solving complex problems, I&apos;ve delivered innovative solutions across various domains.
+                                I&apos;m a self-taught IT Consultant and Builder with a passion for technology solutions. With hands-on experience in cloud services, IoT projects, and practical problem-solving, I focus on creating functional solutions that address real-world needs.
                             </p>
                             
                             {aboutExpanded && (
@@ -330,7 +330,7 @@ export default function Resume() {
                                     transition={{ duration: 0.3 }}
                                 >
                                     <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
-                                        I specialize in building scalable cloud infrastructure and developing efficient backend systems. My experience spans from IoT device management to AI-powered applications. I&apos;m constantly exploring new technologies to enhance my skill set.
+                                        I approach technology from a practical perspective, learning what I need to accomplish specific goals. My experience includes working with AWS services, exploring IoT applications, and leveraging AI tools to enhance productivity. I&apos;m constantly expanding my knowledge through hands-on projects and self-directed learning.
                                     </p>
                                     
                                     <div className="mt-6">

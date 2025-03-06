@@ -15,8 +15,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Jonathon Martin | Interactive Resume",
-  description: "Software engineer with expertise in cloud infrastructure, Python development, and IoT solutions.",
-  keywords: "software engineer, cloud infrastructure, Python, IoT, AWS, resume, portfolio",
+  description: "IT Consultant and Builder with experience in cloud services, IoT projects, and practical technology solutions.",
+  keywords: "IT consultant, builder, cloud services, IoT, AWS, technology solutions, resume, portfolio",
 };
 
 export default function RootLayout({
