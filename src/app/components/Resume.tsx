@@ -4,8 +4,9 @@
 "use client";
 
 import { useState, useEffect, ReactNode } from 'react';
-import { FiSun, FiMoon, FiGithub, FiLinkedin, FiMail, FiUser, FiChevronDown, FiChevronUp, FiAward, FiHeart, FiHome, FiCalendar, FiBriefcase, FiCloud, FiServer, FiMonitor, FiCpu, FiCode, FiDatabase, FiLayers, FiX, FiExternalLink, FiDownload, FiFileText, FiClock, FiEye } from 'react-icons/fi';
+import { FiSun, FiMoon, FiGithub, FiLinkedin, FiMail, FiUser, FiChevronDown, FiChevronUp, FiAward, FiHeart, FiHome, FiCalendar, FiBriefcase, FiCloud, FiServer, FiMonitor, FiCpu, FiCode, FiDatabase, FiLayers, FiX, FiExternalLink, FiFileText, FiClock, FiEye } from 'react-icons/fi';
 import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
 
 // Define types for portfolio projects
 interface Technology {
@@ -358,11 +359,13 @@ export default function Resume() {
                         
                         <div className="flex items-start gap-6 flex-col md:flex-row">
                             <div className="md:w-1/3 flex flex-col items-center">
-                                <div className="w-40 h-40 rounded-full overflow-hidden border-4 border-blue-500 shadow-lg mb-4">
-                                    <img 
+                                <div className="w-40 h-40 rounded-full overflow-hidden border-4 border-blue-500 shadow-lg mb-4 relative">
+                                    <Image 
                                         src="/images/Jon Selfie.jpg" 
                                         alt="Jonathon Martin" 
-                                        className="w-full h-full object-cover"
+                                        fill
+                                        sizes="160px"
+                                        className="object-cover"
                                         onError={(e) => {
                                             // Fallback to initials if image fails to load
                                             const target = e.target as HTMLImageElement;
@@ -546,7 +549,8 @@ export default function Resume() {
                             <div className="p-5 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-700 shadow-md hover:shadow-lg transition-all duration-300 hover:translate-y-[-2px]">
                                 <h3 className="text-xl font-semibold mb-3">MVP Logistics App</h3>
                                 <p className="text-gray-700 dark:text-gray-300 mb-4">
-                                    AI-powered logistics platform built on AWS. Streamlines operations and automates routine tasks.
+                                MVP for a TMS software leveraging AWS to automate and analyze freight logistics.
+                                 Features an AI-powered platform targeting efficient operations and revenue growth, with plans for beta testing and a swift market launch.
                                 </p>
                                 <div className="flex flex-wrap gap-2">
                                     <span className="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-100 rounded-full text-sm font-medium">AWS</span>
@@ -556,7 +560,8 @@ export default function Resume() {
                             <div className="p-5 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-700 shadow-md hover:shadow-lg transition-all duration-300 hover:translate-y-[-2px]">
                                 <h3 className="text-xl font-semibold mb-3">Tomato Monitoring System</h3>
                                 <p className="text-gray-700 dark:text-gray-300 mb-4">
-                                    Developed a comprehensive monitoring system for IoT devices that tracks real-time data and provides actionable insights. The system handles thousands of data points per minute and uses AI to predict maintenance needs.
+                                Tomato project utilizing AWS for data evaluation and trend prediction in plant growth. Initially planned with Raspberry Pi for telemetry, 
+                                now incorporates AC Infinity app with integrated sensors. Exploring enhancements with an internal camera setup for real-time growth monitoring.
                                 </p>
                                 <div className="flex flex-wrap gap-2">
                                     <span className="px-3 py-1 bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-100 rounded-full text-sm font-medium">IoT</span>
