@@ -4,7 +4,7 @@
 "use client";
 
 import { useState, useEffect, ReactNode } from 'react';
-import { FiSun, FiMoon, FiGithub, FiLinkedin, FiMail, FiUser, FiChevronDown, FiChevronUp, FiAward, FiHeart, FiHome, FiCalendar, FiBriefcase, FiCloud, FiServer, FiMonitor, FiCpu, FiCode, FiDatabase, FiLayers, FiX, FiExternalLink } from 'react-icons/fi';
+import { FiSun, FiMoon, FiGithub, FiLinkedin, FiMail, FiUser, FiChevronDown, FiChevronUp, FiAward, FiHeart, FiHome, FiCalendar, FiBriefcase, FiCloud, FiServer, FiMonitor, FiCpu, FiCode, FiDatabase, FiLayers, FiX, FiExternalLink, FiDownload, FiFileText, FiClock, FiEye } from 'react-icons/fi';
 import { motion, AnimatePresence } from 'framer-motion';
 
 // Define types for portfolio projects
@@ -37,11 +37,22 @@ interface Skill {
   bgColor: string;
 }
 
+// Define types for certifications
+interface Certification {
+  name: string;
+  issuer: string;
+  date: string;
+  pdfPath: string;
+  icon: ReactNode;
+  bgColor: string;
+}
+
 export default function Resume() {
     // Initialize darkMode based on system preference
     const [darkMode, setDarkMode] = useState(false);
     const [aboutExpanded, setAboutExpanded] = useState(false);
     const [activeDemo, setActiveDemo] = useState<string | null>(null);
+    const [activeCertificate, setActiveCertificate] = useState<string | null>(null);
     
     // Form state
     const [formData, setFormData] = useState({
@@ -49,6 +60,7 @@ export default function Resume() {
         email: '',
         message: ''
     });
+    
     const [formStatus, setFormStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
     const [formError, setFormError] = useState<string | null>(null);
     
@@ -153,6 +165,42 @@ export default function Resume() {
         }
     ];
     
+    // Define certifications data
+    const certifications: Certification[] = [
+        {
+            name: "Google Data Analytics Certificate",
+            issuer: "Google",
+            date: "2022",
+            pdfPath: "/certifications/Google Data Analytics Cert.pdf",
+            icon: <FiDatabase />,
+            bgColor: "bg-blue-500"
+        },
+        {
+            name: "Intro to Computer OS and Security",
+            issuer: "Microsoft",
+            date: "2023",
+            pdfPath: "/certifications/Intro to Computer OS and Security certification.pdf",
+            icon: <FiServer />,
+            bgColor: "bg-purple-500"
+        },
+        {
+            name: "Introduction to Networking and Cloud Computing",
+            issuer: "Microsoft",
+            date: "2023",
+            pdfPath: "/certifications/Introduction to networking and cloud computing certification.pdf",
+            icon: <FiCloud />,
+            bgColor: "bg-indigo-500"
+        },
+        {
+            name: "AWS Cloud Solutions Architect Associate",
+            issuer: "Amazon Web Services",
+            date: "Coming Soon",
+            pdfPath: "#",
+            icon: <FiCloud />,
+            bgColor: "bg-orange-500"
+        }
+    ];
+    
     // Set initial theme based on system preference
     useEffect(() => {
         if (typeof window !== 'undefined') {
@@ -234,14 +282,8 @@ export default function Resume() {
         setFormError(null);
         
         try {
-            // Create mailto link with form data
-            const subject = encodeURIComponent(`Resume Contact Form: ${formData.name}`);
-            const body = encodeURIComponent(
-                `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
-            );
-            
-            // Open email client with pre-filled data
-            window.location.href = `mailto:jonmartin82@hotmail.com?subject=${subject}&body=${body}`;
+            // Simulate form submission
+            await new Promise(resolve => setTimeout(resolve, 1000));
             
             // Set success state after a short delay
             setTimeout(() => {
@@ -268,370 +310,480 @@ export default function Resume() {
     // Get active demo content
     const activeDemoContent = getActiveDemoContent();
 
-    return (
-        <div className={`min-h-screen transition-colors duration-300 ${darkMode ? 'dark bg-gray-900 text-white' : 'bg-gray-50 text-gray-900'}`}>
-            <header className="p-4 md:p-6 flex justify-between items-center sticky top-0 z-10 backdrop-blur-sm bg-gray-50/80 dark:bg-gray-900/80 border-b border-gray-200 dark:border-gray-800">
-                <h1 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Jonathon Martin</h1>
-                <button 
-                    onClick={toggleTheme}
-                    className="p-3 rounded-full bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 transition-all duration-300 shadow-md hover:shadow-lg"
-                    aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}
-                >
-                    {darkMode ? <FiSun className="text-yellow-400" /> : <FiMoon className="text-gray-700" />}
-                </button>
-            </header>
+    // Function to open certificate viewer
+    const openCertificate = (pdfPath: string) => {
+        setActiveCertificate(pdfPath);
+    };
 
-            <main className="max-w-5xl mx-auto p-4 md:p-8">
-                {/* About Me Section */}
-                <motion.div 
-                    className="my-6 rounded-xl border border-gray-200 dark:border-gray-700 p-6 md:p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 bg-white dark:bg-gray-800"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5 }}
-                >
-                    <div className="flex justify-between items-center mb-4 pb-2 border-b border-gray-200 dark:border-gray-700">
-                        <div className="flex items-center">
-                            <FiUser className="mr-2 text-blue-500" size={24} />
-                            <h2 className="text-2xl font-bold">About Me</h2>
-                        </div>
-                        <button 
-                            onClick={toggleAbout}
-                            className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 transition-all"
-                            aria-label={aboutExpanded ? "Collapse about section" : "Expand about section"}
-                        >
-                            {aboutExpanded ? <FiChevronUp /> : <FiChevronDown />}
-                        </button>
-                    </div>
-                    
-                    <div className="flex items-start gap-6 flex-col md:flex-row">
-                        <div className="md:w-1/3 flex flex-col items-center">
-                            <div className="w-40 h-40 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-4xl font-bold mb-4">
-                                JM
+    // Function to close certificate viewer
+    const closeCertificate = () => {
+        setActiveCertificate(null);
+    };
+
+    return (
+        <div className={darkMode ? 'dark' : ''}>
+            <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300">
+                <header className="p-4 md:p-6 flex justify-between items-center sticky top-0 z-10 backdrop-blur-sm bg-gray-50/80 dark:bg-gray-900/80 border-b border-gray-200 dark:border-gray-800">
+                    <h1 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Jonathon Martin</h1>
+                    <button 
+                        onClick={toggleTheme}
+                        className="p-3 rounded-full bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 transition-all duration-300 shadow-md hover:shadow-lg"
+                        aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}
+                    >
+                        {darkMode ? <FiSun className="text-yellow-400" /> : <FiMoon className="text-gray-700" />}
+                    </button>
+                </header>
+
+                <main className="container mx-auto px-4 py-8 max-w-5xl">
+                    {/* About Me Section */}
+                    <motion.div 
+                        className="my-6 rounded-xl border border-gray-200 dark:border-gray-700 p-6 md:p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 bg-white dark:bg-gray-800"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5 }}
+                    >
+                        <div className="flex justify-between items-center mb-4 pb-2 border-b border-gray-200 dark:border-gray-700">
+                            <div className="flex items-center">
+                                <FiUser className="mr-2 text-blue-500" size={24} />
+                                <h2 className="text-2xl font-bold">About Me</h2>
                             </div>
-                            <div className="flex flex-col items-center text-center">
-                                <p className="flex items-center text-gray-700 dark:text-gray-300 mb-2">
-                                    <FiCalendar className="mr-2 text-blue-500" /> 30 Years Old
-                                </p>
-                                <p className="flex items-center text-gray-700 dark:text-gray-300 mb-2">
-                                    <FiHome className="mr-2 text-blue-500" /> Houston, TX
-                                </p>
-                            </div>
+                            <button 
+                                onClick={toggleAbout}
+                                className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 transition-all"
+                                aria-label={aboutExpanded ? "Collapse about section" : "Expand about section"}
+                            >
+                                {aboutExpanded ? <FiChevronUp /> : <FiChevronDown />}
+                            </button>
                         </div>
                         
-                        <div className="md:w-2/3">
-                            <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
-                                I&apos;m a self-taught IT Consultant and Builder with a passion for technology solutions. With hands-on experience in cloud services, IoT projects, and practical problem-solving, I focus on creating functional solutions that address real-world needs.
-                            </p>
-                            
-                            {aboutExpanded && (
-                                <motion.div
-                                    initial={{ opacity: 0, height: 0 }}
-                                    animate={{ opacity: 1, height: "auto" }}
-                                    transition={{ duration: 0.3 }}
-                                >
-                                    <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
-                                        I approach technology from a practical perspective, learning what I need to accomplish specific goals. My experience includes working with AWS services, exploring IoT applications, and leveraging AI tools to enhance productivity. I&apos;m constantly expanding my knowledge through hands-on projects and self-directed learning.
-                                    </p>
-                                    
-                                    <div className="mt-6">
-                                        <h3 className="text-xl font-semibold mb-3 flex items-center">
-                                            <FiBriefcase className="mr-2 text-blue-500" /> Experience
-                                        </h3>
-                                        <div className="border-l-2 border-blue-500 pl-4 ml-2">
-                                            <div className="mb-4">
-                                                <h4 className="font-medium">Full-time Caretaker</h4>
-                                                <p className="text-sm text-gray-600 dark:text-gray-400">2023 - Present</p>
-                                                <p className="text-gray-700 dark:text-gray-300 mt-1">
-                                                    Providing comprehensive care for elderly grandparents, including physical assistance, medication management, and household maintenance.
-                                                </p>
-                                            </div>
-                                            <div className="mb-4">
-                                                <h4 className="font-medium">Self-Directed Technology Learning</h4>
-                                                <p className="text-sm text-gray-600 dark:text-gray-400">2023 - Present</p>
-                                                <p className="text-gray-700 dark:text-gray-300 mt-1">
-                                                    Pursuing AWS certification, developing IoT projects, and building skills in AI-assisted development.
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <div className="mt-6">
-                                        <h3 className="text-xl font-semibold mb-3 flex items-center">
-                                            <FiHeart className="mr-2 text-blue-500" /> Interests
-                                        </h3>
-                                        <div className="flex flex-wrap gap-3">
-                                            <span className="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-100 rounded-full text-sm font-medium flex items-center">
-                                                Cloud Computing
-                                            </span>
-                                            <span className="px-3 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-100 rounded-full text-sm font-medium flex items-center">
-                                                IoT Development
-                                            </span>
-                                            <span className="px-3 py-1 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-100 rounded-full text-sm font-medium flex items-center">
-                                                AI & Machine Learning
-                                            </span>
-                                            <span className="px-3 py-1 bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-100 rounded-full text-sm font-medium flex items-center">
-                                                Prompt Engineering
-                                            </span>
-                                        </div>
-                                    </div>
-                                </motion.div>
-                            )}
-                            
-                            {!aboutExpanded && (
-                                <button 
-                                    onClick={toggleAbout}
-                                    className="text-blue-600 dark:text-blue-400 hover:underline mt-2 flex items-center"
-                                >
-                                    Read more about me <FiChevronDown className="ml-1" />
-                                </button>
-                            )}
-                        </div>
-                    </div>
-                </motion.div>
-
-                <div className="my-6 rounded-xl border border-gray-200 dark:border-gray-700 p-6 md:p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 bg-white dark:bg-gray-800">
-                    <h2 className="text-2xl font-bold mb-4 pb-2 border-b border-gray-200 dark:border-gray-700">Professional Summary</h2>
-                    <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-                    An adaptable and dedicated professional with a robust background in the service and cannabis industries,
-                     complemented by substantial experience in caretaking. Skilled in customer service and time management,
-                      I excel in high-pressure environments and am committed to providing exceptional support and service.
-                      
-                       My career has been marked by a passion for advancing technological integration in every field I&apos;ve engaged with,
-                        from developing innovative cloud-based solutions to optimizing operational efficiencies in the cannabis sector. 
-                        A lifelong interest in technology drives my pursuit of continual learning and application of the latest advancements to solve real-world problems. 
-                        With a compassionate approach to caretaking, I bring empathy and resilience to all my professional endeavors, ensuring a balanced, client-focused perspective that values human interaction and technological empowerment.
-                    </p>
-                </div>
-
-                {/* Portfolio Section */}
-                <motion.div 
-                    className="my-6 rounded-xl border border-gray-200 dark:border-gray-700 p-6 md:p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 bg-white dark:bg-gray-800"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: 0.2 }}
-                >
-                    <div className="flex items-center mb-4 pb-2 border-b border-gray-200 dark:border-gray-700">
-                        <FiBriefcase className="mr-2 text-blue-500" size={24} />
-                        <h2 className="text-2xl font-bold">Portfolio</h2>
-                    </div>
-                    
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {portfolioProjects.map((project, index) => (
-                            <motion.div 
-                                key={index}
-                                className="p-5 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-700 shadow-md hover:shadow-lg transition-all duration-300 hover:translate-y-[-2px]"
-                                whileHover={{ scale: 1.02 }}
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.3, delay: index * 0.1 }}
-                            >
-                                <h3 className="text-xl font-semibold mb-3 flex items-center">
-                                    {project.icon}
-                                    <span className="ml-2">{project.title}</span>
-                                </h3>
-                                <p className="text-gray-700 dark:text-gray-300 mb-4">
-                                    {project.description}
-                                </p>
-                                <div className="flex flex-wrap gap-2 mb-4">
-                                    {project.technologies.map((tech, techIndex) => (
-                                        <span 
-                                            key={techIndex} 
-                                            className={`px-3 py-1 ${tech.bgColor} ${tech.textColor} rounded-full text-sm font-medium`}
-                                        >
-                                            {tech.name}
-                                        </span>
-                                    ))}
-                                </div>
-                                <div className="flex justify-between items-center mt-4">
-                                    {project.demoType === 'modal' ? (
-                                        <button 
-                                            onClick={() => openDemo(project.demoLink)}
-                                            className="text-blue-600 dark:text-blue-400 hover:underline flex items-center"
-                                        >
-                                            View Demo <FiChevronDown className="ml-1 transform rotate-270" />
-                                        </button>
-                                    ) : (
-                                        <a 
-                                            href={project.demoLink} 
-                                            target="_blank" 
-                                            rel="noopener noreferrer"
-                                            className="text-blue-600 dark:text-blue-400 hover:underline flex items-center"
-                                        >
-                                            View Live <FiExternalLink className="ml-1" />
-                                        </a>
-                                    )}
-                                    {project.githubLink && (
-                                        <a 
-                                            href={project.githubLink} 
-                                            target="_blank" 
-                                            rel="noopener noreferrer"
-                                            className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
-                                        >
-                                            <FiGithub size={20} />
-                                        </a>
-                                    )}
-                                </div>
-                            </motion.div>
-                        ))}
-                    </div>
-                </motion.div>
-
-                <div className="my-6 rounded-xl border border-gray-200 dark:border-gray-700 p-6 md:p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 bg-white dark:bg-gray-800">
-                    <h2 className="text-2xl font-bold mb-4 pb-2 border-b border-gray-200 dark:border-gray-700">Key Projects</h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div className="p-5 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-700 shadow-md hover:shadow-lg transition-all duration-300 hover:translate-y-[-2px]">
-                            <h3 className="text-xl font-semibold mb-3">MVP Logistics App</h3>
-                            <p className="text-gray-700 dark:text-gray-300 mb-4">
-                                AI-powered logistics platform built on AWS. Streamlines operations and automates routine tasks.
-                            </p>
-                            <div className="flex flex-wrap gap-2">
-                                <span className="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-100 rounded-full text-sm font-medium">AWS</span>
-                                <span className="px-3 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-100 rounded-full text-sm font-medium">AI</span>
-                            </div>
-                        </div>
-                        <div className="p-5 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-700 shadow-md hover:shadow-lg transition-all duration-300 hover:translate-y-[-2px]">
-                            <h3 className="text-xl font-semibold mb-3">Tomato Monitoring System</h3>
-                            <p className="text-gray-700 dark:text-gray-300 mb-4">
-                                Developed a comprehensive monitoring system for IoT devices that tracks real-time data and provides actionable insights. The system handles thousands of data points per minute and uses AI to predict maintenance needs.
-                            </p>
-                            <div className="flex flex-wrap gap-2">
-                                <span className="px-3 py-1 bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-100 rounded-full text-sm font-medium">IoT</span>
-                                <span className="px-3 py-1 bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-100 rounded-full text-sm font-medium">Python</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="my-6 rounded-xl border border-gray-200 dark:border-gray-700 p-6 md:p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 bg-white dark:bg-gray-800">
-                    <div className="flex items-center mb-4 pb-2 border-b border-gray-200 dark:border-gray-700">
-                        <FiAward className="mr-2 text-blue-500" size={24} />
-                        <h2 className="text-2xl font-bold">Skills</h2>
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {skills.map((skill, index) => (
-                            <motion.div 
-                                key={index}
-                                className="flex flex-col"
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.3, delay: index * 0.1 }}
-                            >
-                                <div className="flex justify-between items-center mb-2">
-                                    <div className="flex items-center">
-                                        <span className={`p-2 rounded-md ${skill.bgColor} text-white mr-3`}>
-                                            {skill.icon}
-                                        </span>
-                                        <span className="font-medium">{skill.name}</span>
-                                    </div>
-                                    <span className="text-sm text-gray-600 dark:text-gray-400">
-                                        {skill.level * 20}%
-                                    </span>
-                                </div>
-                                <div className="h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-                                    <motion.div 
-                                        className={`h-full ${skill.bgColor}`}
-                                        initial={{ width: 0 }}
-                                        animate={{ width: `${skill.level * 20}%` }}
-                                        transition={{ duration: 1, delay: 0.5 + (index * 0.1) }}
+                        <div className="flex items-start gap-6 flex-col md:flex-row">
+                            <div className="md:w-1/3 flex flex-col items-center">
+                                <div className="w-40 h-40 rounded-full overflow-hidden border-4 border-blue-500 shadow-lg mb-4">
+                                    <img 
+                                        src="/images/Jon Selfie.jpg" 
+                                        alt="Jonathon Martin" 
+                                        className="w-full h-full object-cover"
+                                        onError={(e) => {
+                                            // Fallback to initials if image fails to load
+                                            const target = e.target as HTMLImageElement;
+                                            target.style.display = 'none';
+                                            target.parentElement!.classList.add('bg-gradient-to-br', 'from-blue-500', 'to-purple-600', 'flex', 'items-center', 'justify-center', 'text-white', 'text-4xl', 'font-bold');
+                                            target.parentElement!.innerHTML = '<span>JM</span>';
+                                        }}
                                     />
                                 </div>
-                            </motion.div>
-                        ))}
-                    </div>
-                </div>
-                
-                <div className="my-6 rounded-xl border border-gray-200 dark:border-gray-700 p-6 md:p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 bg-white dark:bg-gray-800">
-                    <h2 className="text-2xl font-bold mb-4 pb-2 border-b border-gray-200 dark:border-gray-700">Contact Me</h2>
-                    <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-                        <div>
-                            <label htmlFor="name" className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">Name</label>
-                            <input 
-                                id="name"
-                                type="text" 
-                                placeholder="Your Name" 
-                                className="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
-                                value={formData.name}
-                                onChange={handleInputChange}
-                                disabled={formStatus === 'submitting'}
-                            />
-                        </div>
-                        <div>
-                            <label htmlFor="email" className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">Email</label>
-                            <input 
-                                id="email"
-                                type="email" 
-                                placeholder="Your Email" 
-                                className="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
-                                value={formData.email}
-                                onChange={handleInputChange}
-                                disabled={formStatus === 'submitting'}
-                            />
-                        </div>
-                        <div>
-                            <label htmlFor="message" className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">Message</label>
-                            <textarea 
-                                id="message"
-                                placeholder="Your Message" 
-                                className="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 dark:text-white min-h-[120px] focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
-                                value={formData.message}
-                                onChange={handleInputChange}
-                                disabled={formStatus === 'submitting'}
-                            ></textarea>
-                        </div>
-                        
-                        {formError && (
-                            <div className="text-red-500 text-sm mt-1">{formError}</div>
-                        )}
-                        
-                        {formStatus === 'success' && (
-                            <div className="bg-green-100 dark:bg-green-900 border border-green-200 dark:border-green-800 text-green-800 dark:text-green-200 p-3 rounded-lg">
-                                Your message has been sent successfully! I&apos;ll get back to you soon.
+                                <div className="flex flex-col items-center text-center">
+                                    <p className="flex items-center text-gray-700 dark:text-gray-300 mb-2">
+                                        <FiCalendar className="mr-2 text-blue-500" /> 30 Years Old
+                                    </p>
+                                    <p className="flex items-center text-gray-700 dark:text-gray-300 mb-2">
+                                        <FiHome className="mr-2 text-blue-500" /> Houston, TX
+                                    </p>
+                                </div>
                             </div>
-                        )}
-                        
-                        <button 
-                            type="submit" 
-                            className={`${
-                                formStatus === 'submitting' 
-                                    ? 'bg-blue-400 cursor-not-allowed' 
-                                    : 'bg-blue-600 hover:bg-blue-700'
-                            } text-white p-3 rounded-lg font-medium shadow-md hover:shadow-lg transition-all duration-300 mt-2 flex justify-center items-center`}
-                            disabled={formStatus === 'submitting'}
-                        >
-                            {formStatus === 'submitting' ? (
-                                <>
-                                    <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                    </svg>
-                                    Sending...
-                                </>
-                            ) : 'Send Message'}
-                        </button>
-                    </form>
-                </div>
-            </main>
+                            
+                            <div className="md:w-2/3">
+                                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
+                                    I&apos;m a self-taught IT Consultant and Builder with a passion for technology solutions. With hands-on experience in cloud services, IoT projects, and practical problem-solving, I focus on creating functional solutions that address real-world needs.
+                                </p>
+                                
+                                {aboutExpanded && (
+                                    <motion.div
+                                        initial={{ opacity: 0, height: 0 }}
+                                        animate={{ opacity: 1, height: "auto" }}
+                                        transition={{ duration: 0.3 }}
+                                    >
+                                        <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
+                                            I approach technology from a practical perspective, learning what I need to accomplish specific goals. My experience includes working with AWS services, exploring IoT applications, and leveraging AI tools to enhance productivity. I&apos;m constantly expanding my knowledge through hands-on projects and self-directed learning.
+                                        </p>
+                                        
+                                        <div className="mt-6">
+                                            <h3 className="text-xl font-semibold mb-3 flex items-center">
+                                                <FiBriefcase className="mr-2 text-blue-500" /> Experience
+                                            </h3>
+                                            <div className="border-l-2 border-blue-500 pl-4 ml-2">
+                                                <div className="mb-4">
+                                                    <h4 className="font-medium">Full-time Caretaker</h4>
+                                                    <p className="text-sm text-gray-600 dark:text-gray-400">2023 - Present</p>
+                                                    <p className="text-gray-700 dark:text-gray-300 mt-1">
+                                                        Providing comprehensive care for elderly grandparents, including physical assistance, medication management, and household maintenance.
+                                                    </p>
+                                                </div>
+                                                <div className="mb-4">
+                                                    <h4 className="font-medium">Self-Directed Technology Learning</h4>
+                                                    <p className="text-sm text-gray-600 dark:text-gray-400">2023 - Present</p>
+                                                    <p className="text-gray-700 dark:text-gray-300 mt-1">
+                                                        Pursuing AWS certification, developing IoT projects, and building skills in AI-assisted development.
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div className="mt-6">
+                                            <h3 className="text-xl font-semibold mb-3 flex items-center">
+                                                <FiHeart className="mr-2 text-blue-500" /> Interests
+                                            </h3>
+                                            <div className="flex flex-wrap gap-3">
+                                                <span className="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-100 rounded-full text-sm font-medium flex items-center">
+                                                    Cloud Computing
+                                                </span>
+                                                <span className="px-3 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-100 rounded-full text-sm font-medium flex items-center">
+                                                    IoT Development
+                                                </span>
+                                                <span className="px-3 py-1 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-100 rounded-full text-sm font-medium flex items-center">
+                                                    AI & Machine Learning
+                                                </span>
+                                                <span className="px-3 py-1 bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-100 rounded-full text-sm font-medium flex items-center">
+                                                    Prompt Engineering
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </motion.div>
+                                )}
+                                
+                                {!aboutExpanded && (
+                                    <button 
+                                        onClick={toggleAbout}
+                                        className="text-blue-600 dark:text-blue-400 hover:underline mt-2 flex items-center"
+                                    >
+                                        Read more about me <FiChevronDown className="ml-1" />
+                                    </button>
+                                )}
+                            </div>
+                        </div>
+                    </motion.div>
 
-            <footer className="mt-12 py-6 px-4 border-t border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900">
-                <div className="max-w-5xl mx-auto flex flex-col md:flex-row justify-between items-center">
-                    <p className="text-gray-600 dark:text-gray-400 mb-4 md:mb-0">© {new Date().getFullYear()} Jonathon Martin. All rights reserved.</p>
-                    <div className="flex space-x-4">
-                        <a href="https://github.com/SyntaxMarfin" target="_blank" rel="noopener noreferrer" className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-                            <FiGithub size={20} />
-                            <span className="sr-only">GitHub</span>
-                        </a>
-                        <a href="https://www.linkedin.com/in/jon-martin-4863b5333/" target="_blank" rel="noopener noreferrer" className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-                            <FiLinkedin size={20} />
-                            <span className="sr-only">LinkedIn</span>
-                        </a>
-                        <a href="mailto:jonmartin82@hotmail.com" className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-                            <FiMail size={20} />
-                            <span className="sr-only">Email</span>
-                        </a>
+                    <div className="my-6 rounded-xl border border-gray-200 dark:border-gray-700 p-6 md:p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 bg-white dark:bg-gray-800">
+                        <h2 className="text-2xl font-bold mb-4 pb-2 border-b border-gray-200 dark:border-gray-700">Professional Summary</h2>
+                        <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+                        An adaptable and dedicated professional with a robust background in the service and cannabis industries,
+                         complemented by substantial experience in caretaking. Skilled in customer service and time management,
+                          I excel in high-pressure environments and am committed to providing exceptional support and service.
+                          
+                           My career has been marked by a passion for advancing technological integration in every field I&apos;ve engaged with,
+                            from developing innovative cloud-based solutions to optimizing operational efficiencies in the cannabis sector. 
+                            A lifelong interest in technology drives my pursuit of continual learning and application of the latest advancements to solve real-world problems. 
+                            With a compassionate approach to caretaking, I bring empathy and resilience to all my professional endeavors, ensuring a balanced, client-focused perspective that values human interaction and technological empowerment.
+                        </p>
                     </div>
-                </div>
-            </footer>
 
+                    {/* Portfolio Section */}
+                    <motion.div 
+                        className="my-6 rounded-xl border border-gray-200 dark:border-gray-700 p-6 md:p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 bg-white dark:bg-gray-800"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5, delay: 0.2 }}
+                    >
+                        <div className="flex items-center mb-4 pb-2 border-b border-gray-200 dark:border-gray-700">
+                            <FiBriefcase className="mr-2 text-blue-500" size={24} />
+                            <h2 className="text-2xl font-bold">Portfolio</h2>
+                        </div>
+                        
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            {portfolioProjects.map((project, index) => (
+                                <motion.div 
+                                    key={index}
+                                    className="p-5 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-700 shadow-md hover:shadow-lg transition-all duration-300 hover:translate-y-[-2px]"
+                                    whileHover={{ scale: 1.02 }}
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.3, delay: index * 0.1 }}
+                                >
+                                    <h3 className="text-xl font-semibold mb-3 flex items-center">
+                                        {project.icon}
+                                        <span className="ml-2">{project.title}</span>
+                                    </h3>
+                                    <p className="text-gray-700 dark:text-gray-300 mb-4">
+                                        {project.description}
+                                    </p>
+                                    <div className="flex flex-wrap gap-2 mb-4">
+                                        {project.technologies.map((tech, techIndex) => (
+                                            <span 
+                                                key={techIndex} 
+                                                className={`px-3 py-1 ${tech.bgColor} ${tech.textColor} rounded-full text-sm font-medium`}
+                                            >
+                                                {tech.name}
+                                            </span>
+                                        ))}
+                                    </div>
+                                    <div className="flex justify-between items-center mt-4">
+                                        {project.demoType === 'modal' ? (
+                                            <button 
+                                                onClick={() => openDemo(project.demoLink)}
+                                                className="text-blue-600 dark:text-blue-400 hover:underline flex items-center"
+                                            >
+                                                View Demo <FiChevronDown className="ml-1 transform rotate-270" />
+                                            </button>
+                                        ) : (
+                                            <a 
+                                                href={project.demoLink} 
+                                                target="_blank" 
+                                                rel="noopener noreferrer"
+                                                className="text-blue-600 dark:text-blue-400 hover:underline flex items-center"
+                                            >
+                                                View Live <FiExternalLink className="ml-1" />
+                                            </a>
+                                        )}
+                                        {project.githubLink && (
+                                            <a 
+                                                href={project.githubLink} 
+                                                target="_blank" 
+                                                rel="noopener noreferrer"
+                                                className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
+                                            >
+                                                <FiGithub size={20} />
+                                            </a>
+                                        )}
+                                    </div>
+                                </motion.div>
+                            ))}
+                        </div>
+                    </motion.div>
+
+                    <div className="my-6 rounded-xl border border-gray-200 dark:border-gray-700 p-6 md:p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 bg-white dark:bg-gray-800">
+                        <h2 className="text-2xl font-bold mb-4 pb-2 border-b border-gray-200 dark:border-gray-700">Key Projects</h2>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div className="p-5 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-700 shadow-md hover:shadow-lg transition-all duration-300 hover:translate-y-[-2px]">
+                                <h3 className="text-xl font-semibold mb-3">MVP Logistics App</h3>
+                                <p className="text-gray-700 dark:text-gray-300 mb-4">
+                                    AI-powered logistics platform built on AWS. Streamlines operations and automates routine tasks.
+                                </p>
+                                <div className="flex flex-wrap gap-2">
+                                    <span className="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-100 rounded-full text-sm font-medium">AWS</span>
+                                    <span className="px-3 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-100 rounded-full text-sm font-medium">AI</span>
+                                </div>
+                            </div>
+                            <div className="p-5 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-700 shadow-md hover:shadow-lg transition-all duration-300 hover:translate-y-[-2px]">
+                                <h3 className="text-xl font-semibold mb-3">Tomato Monitoring System</h3>
+                                <p className="text-gray-700 dark:text-gray-300 mb-4">
+                                    Developed a comprehensive monitoring system for IoT devices that tracks real-time data and provides actionable insights. The system handles thousands of data points per minute and uses AI to predict maintenance needs.
+                                </p>
+                                <div className="flex flex-wrap gap-2">
+                                    <span className="px-3 py-1 bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-100 rounded-full text-sm font-medium">IoT</span>
+                                    <span className="px-3 py-1 bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-100 rounded-full text-sm font-medium">Python</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="my-6 rounded-xl border border-gray-200 dark:border-gray-700 p-6 md:p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 bg-white dark:bg-gray-800">
+                        <div className="flex items-center mb-4 pb-2 border-b border-gray-200 dark:border-gray-700">
+                            <FiAward className="mr-2 text-blue-500" size={24} />
+                            <h2 className="text-2xl font-bold">Skills</h2>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            {skills.map((skill, index) => (
+                                <motion.div 
+                                    key={index}
+                                    className="flex flex-col"
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.3, delay: index * 0.1 }}
+                                >
+                                    <div className="flex justify-between items-center mb-2">
+                                        <div className="flex items-center">
+                                            <span className={`p-2 rounded-md ${skill.bgColor} text-white mr-3`}>
+                                                {skill.icon}
+                                            </span>
+                                            <span className="font-medium">{skill.name}</span>
+                                        </div>
+                                        <span className="text-sm text-gray-600 dark:text-gray-400">
+                                            {skill.level * 20}%
+                                        </span>
+                                    </div>
+                                    <div className="h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                                        <motion.div 
+                                            className={`h-full ${skill.bgColor}`}
+                                            initial={{ width: 0 }}
+                                            animate={{ width: `${skill.level * 20}%` }}
+                                            transition={{ duration: 1, delay: 0.5 + (index * 0.1) }}
+                                        />
+                                    </div>
+                                </motion.div>
+                            ))}
+                        </div>
+                    </div>
+                    
+                    {/* Certifications Section */}
+                    <div className="my-6 rounded-xl border border-gray-200 dark:border-gray-700 p-6 md:p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 bg-white dark:bg-gray-800">
+                        <div className="flex items-center mb-4 pb-2 border-b border-gray-200 dark:border-gray-700">
+                            <FiFileText className="mr-2 text-green-500" size={24} />
+                            <h2 className="text-2xl font-bold">Certifications</h2>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            {certifications.map((cert, index) => (
+                                <motion.div 
+                                    key={index}
+                                    className="p-5 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-700 shadow-md hover:shadow-lg transition-all duration-300 hover:translate-y-[-2px]"
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.3, delay: index * 0.1 }}
+                                >
+                                    <div className="flex items-center mb-3">
+                                        <span className={`p-2 rounded-md ${cert.bgColor} text-white mr-3`}>
+                                            {cert.icon}
+                                        </span>
+                                        <h3 className="text-xl font-semibold">{cert.name}</h3>
+                                    </div>
+                                    <div className="mb-4">
+                                        <p className="text-gray-700 dark:text-gray-300">
+                                            <span className="font-medium">Issuer:</span> {cert.issuer}
+                                        </p>
+                                        <p className="text-gray-700 dark:text-gray-300">
+                                            <span className="font-medium">Date:</span> {cert.date}
+                                        </p>
+                                    </div>
+                                    {cert.pdfPath === "#" ? (
+                                        <span className="inline-flex items-center px-4 py-2 bg-gray-400 text-white rounded-md cursor-not-allowed">
+                                            <FiClock className="mr-2" /> Coming Soon
+                                        </span>
+                                    ) : (
+                                        <button 
+                                            onClick={() => openCertificate(cert.pdfPath)}
+                                            className="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md transition-colors duration-300"
+                                        >
+                                            <FiEye className="mr-2" /> View Certificate
+                                        </button>
+                                    )}
+                                </motion.div>
+                            ))}
+                        </div>
+                    </div>
+                    
+                    <div className="my-6 rounded-xl border border-gray-200 dark:border-gray-700 p-6 md:p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 bg-white dark:bg-gray-800">
+                        <h2 className="text-2xl font-bold mb-4 pb-2 border-b border-gray-200 dark:border-gray-700">Contact Me</h2>
+                        <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+                            <div>
+                                <label htmlFor="name" className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">Name</label>
+                                <input 
+                                    id="name"
+                                    type="text" 
+                                    className="w-full p-3 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
+                                    placeholder="Your name"
+                                    name="name"
+                                    value={formData.name}
+                                    onChange={handleInputChange}
+                                    disabled={formStatus === 'submitting'}
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="email" className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">Email</label>
+                                <input 
+                                    id="email"
+                                    type="email" 
+                                    className="w-full p-3 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
+                                    placeholder="Your email"
+                                    name="email"
+                                    value={formData.email}
+                                    onChange={handleInputChange}
+                                    disabled={formStatus === 'submitting'}
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="message" className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">Message</label>
+                                <textarea 
+                                    id="message"
+                                    className="w-full p-3 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 min-h-[150px]"
+                                    placeholder="Your message"
+                                    name="message"
+                                    value={formData.message}
+                                    onChange={handleInputChange}
+                                    disabled={formStatus === 'submitting'}
+                                ></textarea>
+                            </div>
+                            
+                            {formError && (
+                                <div className="text-red-500 text-sm mt-1">{formError}</div>
+                            )}
+                            
+                            {formStatus === 'success' && (
+                                <div className="bg-green-100 dark:bg-green-900 border border-green-200 dark:border-green-800 text-green-800 dark:text-green-200 p-3 rounded-lg">
+                                    Your message has been sent successfully! I&apos;ll get back to you soon.
+                                </div>
+                            )}
+                            
+                            <button 
+                                type="submit" 
+                                className={`${
+                                    formStatus === 'submitting' 
+                                        ? 'bg-blue-400 cursor-not-allowed' 
+                                        : 'bg-blue-600 hover:bg-blue-700'
+                                } text-white p-3 rounded-lg font-medium shadow-md hover:shadow-lg transition-all duration-300 mt-2 flex justify-center items-center`}
+                                disabled={formStatus === 'submitting'}
+                            >
+                                {formStatus === 'submitting' ? (
+                                    <>
+                                        <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                        </svg>
+                                        Sending...
+                                    </>
+                                ) : 'Send Message'}
+                            </button>
+                        </form>
+                    </div>
+                </main>
+                
+                <footer className="mt-12 py-6 px-4 border-t border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900">
+                    <div className="max-w-5xl mx-auto flex flex-col md:flex-row justify-between items-center">
+                        <p className="text-gray-600 dark:text-gray-400 mb-4 md:mb-0">© {new Date().getFullYear()} Jonathon Martin. All rights reserved.</p>
+                        <div className="flex space-x-4">
+                            <a href="https://github.com/SyntaxMarfin" target="_blank" rel="noopener noreferrer" className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                                <FiGithub size={20} />
+                                <span className="sr-only">GitHub</span>
+                            </a>
+                            <a href="https://www.linkedin.com/in/jon-martin-4863b5333/" target="_blank" rel="noopener noreferrer" className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                                <FiLinkedin size={20} />
+                                <span className="sr-only">LinkedIn</span>
+                            </a>
+                            <a href="mailto:jonmartin82@hotmail.com" className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                                <FiMail size={20} />
+                                <span className="sr-only">Email</span>
+                            </a>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+            
+            {/* Certificate Viewer Modal */}
+            <AnimatePresence>
+                {activeCertificate && activeCertificate !== "#" && (
+                    <motion.div 
+                        className="fixed inset-0 bg-black bg-opacity-70 z-50 flex items-center justify-center p-4"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        onClick={closeCertificate}
+                    >
+                        <motion.div 
+                            className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl w-full max-w-5xl max-h-[90vh] flex flex-col"
+                            initial={{ scale: 0.9, y: 20 }}
+                            animate={{ scale: 1, y: 0 }}
+                            exit={{ scale: 0.9, y: 20 }}
+                            onClick={e => e.stopPropagation()}
+                        >
+                            <div className="flex justify-between items-center p-4 border-b border-gray-200 dark:border-gray-700">
+                                <h3 className="text-xl font-semibold">Certificate Viewer</h3>
+                                <button 
+                                    onClick={closeCertificate}
+                                    className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+                                >
+                                    <FiX size={24} />
+                                </button>
+                            </div>
+                            <div className="flex-grow overflow-auto p-1">
+                                <iframe 
+                                    src={activeCertificate} 
+                                    className="w-full h-full min-h-[70vh] border-0"
+                                    title="Certificate Viewer"
+                                />
+                            </div>
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+            
             {/* Demo Modal */}
             <AnimatePresence>
                 {activeDemo && (

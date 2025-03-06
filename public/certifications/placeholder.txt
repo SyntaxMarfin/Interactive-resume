@@ -1,0 +1,10 @@
+This is a placeholder file.
+
+To make the certification download links work properly, please add your actual certification PDF files to this directory:
+
+1. aws-cloud-solutions-architect-associate.pdf - For your AWS certification
+2. google-data-analytics.pdf - For your Google certification
+
+Once you add these files, the download links in your resume will work correctly.
+
+If you don't have the actual PDF files yet, you can create simple placeholder PDFs using online tools or document editors and save them with these filenames. 
