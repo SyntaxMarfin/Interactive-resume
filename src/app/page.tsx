@@ -1,5 +1,5 @@
-import Resume from './components/Resume';
+import Resume from '@/app/components/Resume';
 
 export default function Home() {
-  return <Resume />;
+    return <Resume />;
 }
