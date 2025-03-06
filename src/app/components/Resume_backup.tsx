@@ -5,7 +5,6 @@
 
 import { useState, useEffect } from 'react';
 import { FiSun, FiMoon, FiGithub, FiLinkedin, FiMail } from 'react-icons/fi';
-import Link from 'next/link';
 
 export default function Resume() {
     // Initialize darkMode based on system preference

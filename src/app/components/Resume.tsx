@@ -6,8 +6,6 @@
 import { useState, useEffect, ReactNode } from 'react';
 import { FiSun, FiMoon, FiGithub, FiLinkedin, FiMail, FiUser, FiChevronDown, FiChevronUp, FiAward, FiHeart, FiHome, FiCalendar, FiBriefcase, FiCloud, FiServer, FiMonitor, FiCpu, FiCode, FiDatabase, FiLayers, FiX, FiExternalLink } from 'react-icons/fi';
 import { motion, AnimatePresence } from 'framer-motion';
-import Link from 'next/link';
-import Image from 'next/image';
 
 // Define types for portfolio projects
 interface Technology {
@@ -322,7 +320,7 @@ export default function Resume() {
                         
                         <div className="md:w-2/3">
                             <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
-                                I am currently a full-time caretaker for my grandparents, with particular focus on my grandfather who is disabled. My responsibilities include physical assistance, grooming, and cleaning.
+                                I&apos;m a passionate software engineer with expertise in cloud infrastructure, Python development, and IoT solutions. With a strong background in AWS and a knack for solving complex problems, I&apos;ve delivered innovative solutions across various domains.
                             </p>
                             
                             {aboutExpanded && (
@@ -332,7 +330,7 @@ export default function Resume() {
                                     transition={{ duration: 0.3 }}
                                 >
                                     <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
-                                        During my time as a caretaker, I've been actively developing skills to adapt to the future of technology. I'm passionate about cloud infrastructure, IoT solutions, AI-assisted development, and prompt engineering.
+                                        I specialize in building scalable cloud infrastructure and developing efficient backend systems. My experience spans from IoT device management to AI-powered applications. I&apos;m constantly exploring new technologies to enhance my skill set.
                                     </p>
                                     
                                     <div className="mt-6">
@@ -398,7 +396,7 @@ export default function Resume() {
                      complemented by substantial experience in caretaking. Skilled in customer service and time management,
                       I excel in high-pressure environments and am committed to providing exceptional support and service.
                       
-                       My career has been marked by a passion for advancing technological integration in every field I've engaged with,
+                       My career has been marked by a passion for advancing technological integration in every field I&apos;ve engaged with,
                         from developing innovative cloud-based solutions to optimizing operational efficiencies in the cannabis sector. 
                         A lifelong interest in technology drives my pursuit of continual learning and application of the latest advancements to solve real-world problems. 
                         With a compassionate approach to caretaking, I bring empathy and resilience to all my professional endeavors, ensuring a balanced, client-focused perspective that values human interaction and technological empowerment.
@@ -494,7 +492,7 @@ export default function Resume() {
                         <div className="p-5 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-700 shadow-md hover:shadow-lg transition-all duration-300 hover:translate-y-[-2px]">
                             <h3 className="text-xl font-semibold mb-3">Tomato Monitoring System</h3>
                             <p className="text-gray-700 dark:text-gray-300 mb-4">
-                                IoT solution for monitoring environmental data for optimal tomato growing conditions.
+                                Developed a comprehensive monitoring system for IoT devices that tracks real-time data and provides actionable insights. The system handles thousands of data points per minute and uses AI to predict maintenance needs.
                             </p>
                             <div className="flex flex-wrap gap-2">
                                 <span className="px-3 py-1 bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-100 rounded-full text-sm font-medium">IoT</span>
@@ -587,7 +585,7 @@ export default function Resume() {
                         
                         {formStatus === 'success' && (
                             <div className="bg-green-100 dark:bg-green-900 border border-green-200 dark:border-green-800 text-green-800 dark:text-green-200 p-3 rounded-lg">
-                                Your message has been sent successfully! I'll get back to you soon.
+                                Your message has been sent successfully! I&apos;ll get back to you soon.
                             </div>
                         )}
                         
